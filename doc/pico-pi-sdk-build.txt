@@ -1,0 +1,141 @@
+cp .bashrc .bashrc081121
+08/11/21 pi400-1
+https://www.youtube.com/watch?v=UZwq3eb5My0
+https://datasheets.raspberrypi.org/pico/getting-started-with-pico.pdf
+
+export PICO_SDK_PATH=/opt/pico-sdk
+export PICO_EXAMPLES_PATH=/opt/pico-examples
+export PICO_EXTRAS_PATH=/opt/pico-extras
+export PICO_PLAYGROUND_PATH=/opt/pico-playground
+
+cd /opt
+sudo chown devel:devel /opt
+git clone https://github.com/raspberrypi/pico-sdk
+
+cd pico-sdk
+
+git submodule update --init
+Submodule 'tinyusb' (https://github.com/hathach/tinyusb.git) registered for path 'lib/tinyusb'
+Cloning into '/opt/pico-sdk/lib/tinyusb'...
+Submodule path 'lib/tinyusb': checked out 'd49938d0f5052bce70e55c652b657c0a6a7e84fe'
+
+cd ../
+
+git clone https://github.com/raspberrypi/pico-examples.git
+
+cd pico-examples
+
+
+git submodule update --init
+
+cd ../
+
+git clone https://github.com/raspberrypi/pico-extras.git
+
+cd pico-extras
+
+git submodule update --init
+Submodule 'lwip' (https://git.savannah.nongnu.org/git/lwip.git) registered for path 'lib/lwip'
+Cloning into '/opt/pico-extras/lib/lwip'...
+Submodule path 'lib/lwip': checked out 'c385f31076b27efb8ee37f00cb5568783a58f299'
+
+cd ../
+
+git clone https://github.com/raspberrypi/pico-playground.git
+
+cd pico-playground
+
+git submodule update --init
+
+cd ../
+
+cd pico-examples
+
+mkdir build
+
+cd build 
+
+cmake ..
+
+make
+
+rm -rf /opt/pico-examples/
+
+cp -R pico-examples/ /opt/
+
+cd /opt/pico-examples/build/hello_world
+ls
+CMakeFiles  cmake_install.cmake  Makefile  serial  usb
+make
+ls usb/
+CMakeFiles           hello_usb.bin  hello_usb.elf      hello_usb.hex  Makefile
+cmake_install.cmake  hello_usb.dis  hello_usb.elf.map  hello_usb.uf2
+
+wget https://raw.githubusercontent.com/raspberrypi/pico-setup/master/pico_setup.sh
+
+--2021-08-11 11:17:53--  https://raw.githubusercontent.com/raspberrypi/pico-setup/master/pico_setup.sh
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.111.133, 185.199.108.133, 185.199.110.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.111.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 4404 (4.3K) [text/plain]
+Saving to: ‘pico_setup.sh’
+
+pico_setup.sh       100%[===================>]   4.30K  --.-KB/s    in 0s      
+
+2021-08-11 11:17:53 (10.1 MB/s) - ‘pico_setup.sh’ saved [4404/4404]
+
+chmod +x pico_setup.sh
+
+the following were add to .bashrc
+
+export PICO_SDK_PATH=/home/devel/pico/pico-sdk
+export PICO_EXAMPLES_PATH=/home/devel/pico/pico-examples
+export PICO_EXTRAS_PATH=/home/devel/pico/pico-extras
+export PICO_PLAYGROUND_PATH=/home/devel/pico/pico-playground
+
+cd pico-sdk
+
+git submodule update --init
+
+export PICO_SDK_PATH=/home/devel/local/pico-sdk
+
+mkdir -p local/pico-sdk
+
+fork https://github.com/raspberrypi/pico-sdk
+
+git clone git@github.com:develone/pico-sdk.git
+
+cd pico-sdk
+
+cp external/pico_sdk_import.cmake .
+
+git submodule update --init
+Submodule 'tinyusb' (https://github.com/hathach/tinyusb.git) registered for path 'lib/tinyusb'
+Cloning into '/home/devel/pico-sdk/lib/tinyusb'...
+Submodule path 'lib/tinyusb': checked out 'd49938d0f5052bce70e55c652b657c0a6a7e84fe'
+
+mkdir build
+
+cd build
+
+cmake ../
+
+PICO_SDK_PATH is /home/devel/pico-sdk
+Defaulting PICO_PLATFORM to rp2040 since not specified.
+Defaulting PICO platform compiler to pico_arm_gcc since not specified.
+-- Defaulting build type to 'Release' since not specified.
+PICO compiler is pico_arm_gcc
+-- The C compiler identification is GNU 7.3.1
+-- The CXX compiler identification is GNU 7.3.1
+-- The ASM compiler identification is GNU
+-- Found assembler: /usr/bin/arm-none-eabi-gcc
+Defaulting PICO target board to pico since not specified.
+Using board configuration from /home/devel/pico-sdk/src/boards/include/boards/pico.h
+-- Found Python3: /usr/bin/python3.7 (found version "3.7.3") found components: Interpreter 
+TinyUSB available at /home/devel/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040; adding USB support.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/devel/pico-sdk/build
+
+make
+ 
