@@ -6,7 +6,7 @@ fid = fopen('dwt.bin','r'); im4 = fread(fid, [256,inf], 'int32'); fclose(fid);
 figure;
 imagesc(im1);
 colorbar;
-title "r.bin 256 x 256 11/06/21"
+colormap 'gray'
 
 %figure;
 %imagesc(im2);
@@ -21,7 +21,7 @@ title "r.bin 256 x 256 11/06/21"
 figure;
 imagesc(im4);
 colorbar;
-title "DWT  jpeg.c 3 Lvls 11/06/21 256 x 256"
+colormap 'gray'
 
 %title "RPi3B fwd lifting step blue sub band ./pi_jpeg 2 1 05/29/19"
 %title "FPGA HX8K fwd lifting step green sub band catboard 0x0100f204 05/29/19"

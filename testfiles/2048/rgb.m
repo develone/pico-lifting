@@ -6,6 +6,7 @@ fid = fopen('dwt.bin','r'); im4 = fread(fid, [2048,inf], 'int32'); fclose(fid);
 figure;
 imagesc(im1);
 colorbar;
+colormap 'gray'
 title "r.bin 2048 x 2048 11/06/21"
 
 %figure;
@@ -21,6 +22,7 @@ title "r.bin 2048 x 2048 11/06/21"
 figure;
 imagesc(im4);
 colorbar;
+colormap 'gray'
 title "DWT  jpeg.c 4 Lvls 11/06/21 2048 x 2048"
 
 %title "RPi3B fwd lifting step blue sub band ./pi_jpeg 2 1 05/29/19"
