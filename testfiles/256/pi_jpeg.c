@@ -39,17 +39,8 @@ int main(int argc, char **argv) {
 	
 	FILE *inptr,*outptr;
 	char *ch;
-	int tmp,loop;
-	 
-	int *red_s_ptr;
-	int *wptr;
-	int *alt;
-	
-	int *dummy;
-	 
-	int *buf_red;
+	int tmp;
 	  
-	int i,j;
 	/* 
 	ptrs.w = 2048;
 	ptrs.h = 2048;
@@ -63,22 +54,17 @@ int main(int argc, char **argv) {
 	
 	ptrs.fwd_inv =  &ptrs.fwd;
 	
-	if (DBUG == 1 ) printf("0x%x 0x%x 0x%x \n",buf_red, ptrs.inp_buf, ptrs.out_buf);
+	if (DBUG == 1 ) printf("0x%x 0x%x\n",ptrs.inp_buf, ptrs.out_buf);
 	
-	/*red_s_ptr = buf_red;*/
-	red_s_ptr = ptrs.inpbuf;
+ 
 	
 	
  
 	if(ptrs.inp_buf == NULL) return 2;
 	
 	if(ptrs.fwd_inv == NULL) return 5;
-	red_s_ptr = ptrs.inp_buf;
    
-     
   if (DBUG == 1 ) printf("ptrs.fwd_inv = 0x%x\n",ptrs.fwd_inv);
-  //loop = 4194304;
-  loop = 65536;
 		ch = argv[1];
 		tmp = atoi(ch);
 		if (tmp == 0) { 
@@ -145,14 +131,10 @@ int main(int argc, char **argv) {
 			exit (2);
 		}
 	 
-  	
-		wptr = ptrs.inp_buf;
-		
-		alt = ptrs.out_buf;
-		if (DBUG == 1 ) printf("w = 0x%x ptrs.inp_buf wptr = 0x%x alt =  0x%x ptrs.fwd_inverse =  0x%x ptrs.fwd_inverse =  0x%x \n",ptrs.w, wptr,alt,ptrs.fwd_inv,*ptrs.fwd_inv);
+		if (DBUG == 1 ) printf("w = 0x%x ptrs.inp_buf = 0x%x ptrs.out_buf = 0x%x ptrs.fwd_inverse = ptrs.fwd_inverse = %d\n",ptrs.w, ptrs.inp_buf,ptrs.out_buf,ptrs.fwd_inv,*ptrs.fwd_inv);
 		if (DBUG == 1 ) printf("starting red dwt\n");
 		
-		lifting(ptrs.w,wptr,alt,ptrs.fwd_inv);
+		lifting(ptrs.w,ptrs.inp_buf,ptrs.out_buf,ptrs.fwd_inv);
 		if (DBUG == 1 ) printf("finished ted dwt\n");
 		 
 	
