@@ -1,0 +1,68 @@
+11/08/21
+
+mypi3-28 is a new img from tatoana-2.img
+mypi3-16 is a new img from tatoana-2.img
+
+You first need to determine which drive you want copy.
+sudo fdisk -l
+
+Device     Boot  Start       End   Sectors  Size Id Type
+/dev/sdc1         8192    532479    524288  256M  c W95 FAT32 (LBA)
+/dev/sdc2       532480 121561087 121028608 57.7G 83 Linux
+
+
+Next you want to create an img file that has the contents of a working 
+rpi os system.  As you see from the fdisk command there are 2 partitions.
+
+The command below will create an tatoana-2.img file from the contents of the /dev/sdc.
+ 
+sudo dd bs=16M if=/dev/sdc status='progress' of=tatoana-2.img
+
+sudo fdisk -l
+Device     Boot Start       End   Sectors  Size Id Type
+/dev/sdc1       32768 125042687 125009920 59.6G  7 HPFS/NTFS/exFAT
+
+sudo fdisk /dev/sdc
+
+Welcome to fdisk (util-linux 2.33.1).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+p
+Disk /dev/sdc: 59.6 GiB, 64021856256 bytes, 125042688 sectors
+Disk model: Storage Device  
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x00000000
+
+Device     Boot Start       End   Sectors  Size Id Type
+/dev/sdc1       32768 125042687 125009920 59.6G  7 HPFS/NTFS/exFAT
+
+Command (m for help): d
+Selected partition 1
+Partition 1 has been deleted.
+
+Command (m for help): 
+
+Command (m for help): p
+Disk /dev/sdc: 59.6 GiB, 64021856256 bytes, 125042688 sectors
+Disk model: Storage Device  
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x00000000
+
+Command (m for help): w
+The partition table has been altered.
+Failed to remove partition 1 from system: Device or resource busy
+
+The kernel still uses the old partitions. The new table will be used at the next reboot. 
+Syncing disks.
+
+Use the tool upper right hand corner to unmout the micro sd.
+
+Note: This step can mess up your system. 
+sudo dd bs=16M   if=tatoana-2.img status='progress' of=/dev/sdc
