@@ -12,6 +12,8 @@ int main() {
     while (true) {
         printf("Hello, world!\n");
         sleep_ms(1000);
+        printf("Next step will be the addition of dma transfer\n");
+        printf("between a 64 x 64 buffer\n");
     }
     return 0;
 }
