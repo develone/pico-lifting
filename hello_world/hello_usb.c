@@ -237,7 +237,9 @@ void	lifting(short int w, short int *ibuf, short int *tmpbuf, short int *fwd) {
 }
 
 const char src[] = "Hello, world! ";
-
+const short int a[] = {161,159,157,155,160,170,168,134, 97,106,109,109,109,
+    157,157,156,155,163,170,164,131, 95,104,108,108,108
+    };
 
 int main() {
     stdio_init_all();
@@ -261,6 +263,8 @@ int main() {
             printf("ptrs.inp_buf = 0x%x ptrs.out_buf = 0x%x\n",ptrs.inp_buf, ptrs.out_buf);
             
             printf("w = %d ptrs.fwd_inv = 0x%x ptrs.fwd_inv = %d\n",ptrs.w,ptrs.fwd_inv, *ptrs.fwd_inv); 
+            for(int i=0;i<25;i++) printf("%d ",a[i]);
+            printf("\n");
         } 
         sleep_ms(1000);
     }
