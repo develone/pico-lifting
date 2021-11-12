@@ -498,8 +498,10 @@ const short int a[] = {161,157,156,157,159,162,162,166,172,165,148,117,93,94,94,
 int main() {
 	int flag = 0;
     stdio_init_all();
+    int i,j,l,index;
     ptrs.w = 64;
     ptrs.h = 64;
+    
     
     ptrs.inp_buf = ptrs.inpbuf; 
 	ptrs.out_buf = ptrs.inpbuf + 4096;
@@ -507,37 +509,56 @@ int main() {
 	ptrs.fwd_inv =  &ptrs.fwd;
     *ptrs.fwd_inv = 1;
     
+    /*
+     * for(int i = 0; i < 4096;i++)
+        {
+            *ptrs.inp_buf = a[i];
+            //printf("%d \n",*ptrs.inp_buf);
+            ptrs.inp_buf++;
+            
+        }
+    */
     while (true) {
         if (DBUG == 1 ) {
-			printf("Hello, world!\n");
-			
-            
+            printf("Hello, world!\n");
             printf("Now copmpiles with lifting code as part of hello_usb.c\n"); 
             printf("structure PTRS added to hello_usb.c\n");
             printf("ptrs.w = %d ptrs.h = %d \n", ptrs.w, ptrs.h);
             printf("These are the variables needed for lifting\n");
             printf("ptrs.inp_buf = 0x%x ptrs.out_buf = 0x%x\n",ptrs.inp_buf, ptrs.out_buf);
             
-            printf("w = %d ptrs.fwd_inv = 0x%x ptrs.fwd_inv = %d\n",ptrs.w,ptrs.fwd_inv, *ptrs.fwd_inv);
-        }         
-		if (DBUG1 == 1 ) {
-			for(int i = 0; i < 4096;i++) ptrs.inp_buf[i] = a[i];
-			printf("\n");	
-
-			//printf("Calling lifting!\n");
+            printf("w = %d ptrs.fwd_inv = 0x%x ptrs.fwd_inv = %d\n",ptrs.w,ptrs.fwd_inv, *ptrs.fwd_inv); 
+            //for(int i=0;i<25;i++) printf("%d ",a[i]);
+            //printf("\n");
+        } 
+        if (DBUG1 == 1) {
+			for(i = 0; i < 4096;i++) ptrs.inp_buf[i] = a[i];
+			 
 			lifting(ptrs.w,ptrs.inp_buf,ptrs.out_buf,ptrs.fwd_inv);
-			//printf("Back in main!\n");
-			for(int i=0;i<4096;i++) printf("%d ",ptrs.inp_buf[i]);
-			printf("\n");
-			/*
-			printf("\n");
-			for(int i=4022;i<4032;i++) printf("%d ",ptrs.inp_buf[i]);
-			printf("\n");			
-			for(int i=4086;i<4096;i++) printf("%d ",ptrs.inp_buf[i]);
-			
-			*/	
-			sleep_ms(15000);
+			 
+			//for(i=0;i<4096;i++) printf("%d ",ptrs.inp_buf[i]);
+			index = 0;
+			for(j=0;j<64;j++) {
+				for(l=0;l<4;l++) {
+				//printf("%d\n",l);
+					for(i=0;i<16;i++) {
+						printf("%d,",ptrs.inp_buf[index]);
+						//printf("%d %d %d\n",i,index,index++);
+						index++;
+					}
+					//index = index + 64;
+					printf("\n");
+				}
+			}
 		}
+	//printf("read 16 values\n");
+	
+
+			//printf("\n");
+
+	
+		
+        sleep_ms(8000);
     }
     return 0;
 }
