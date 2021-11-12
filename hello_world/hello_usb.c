@@ -539,16 +539,16 @@ int main() {
 			//for(i=0;i<4096;i++) printf("%d ",ptrs.inp_buf[i]);
 			index = 0;
 			for(j=0;j<64;j++) {
-				for(l=0;l<4;l++) {
+				//for(l=0;l<4;l++) {
 				//printf("%d\n",l);
-					for(i=0;i<16;i++) {
+					for(i=0;i<64;i++) {
 						printf("%d,",ptrs.inp_buf[index]);
 						//printf("%d %d %d\n",i,index,index++);
 						index++;
 					}
 					//index = index + 64;
 					printf("\n");
-				}
+				//}
 			}
 		}
 	//printf("read 16 values\n");
