@@ -1,0 +1,68 @@
+The path for openocd needs to be added to your path.
+export PATH=~/local/openocd/bin/:$PATH
+
+/home/devel/local/openocd/bin/:/home/devel/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games
+
+uart/hello_uart/hello_uart.elf
+
+openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program uart/hello_uart/hello_uart.elf verify reset exit"
+
+uart/uart_advanced/uart_advanced.elf
+
+openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program uart/uart_advanced/uart_advanced.elf verify reset exit"
+
+cd /opt/pico-examples/build
+
+openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program uart/uart_advanced/uart_advanced.elf verify reset exit"
+
+rtc/hello_rtc/hello_rtc.elf
+
+openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program rtc/hello_rtc/hello_rtc.elf verify reset exit"
+
+Hello RTC!
+Friday 5 June 15:46:02 2020
+
+pwm/measure_duty_cycle/pwm_measure_duty_cycle.elf
+
+openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program pwm/measure_duty_cycle/pwm_measure_duty_cycle.elf verify reset exit"
+
+clocks/hello_48MHz/hello_48MHz.elf
+
+openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program clocks/hello_48MHz/hello_48MHz.elf verify reset exit"
+
+Hello, world!                                                                   
+Hello, world!                                                                   
+Hello, world!                                                                   
+Hello, world!                                                                   
+Hello, world!                                                                   
+Hello, world!                                                                   
+Hello, world!                                                                   
+Hello, world!                                                                   
+pll_sys  = 125001kHz                                                            
+pll_usb  = 48000kHz                                                             
+rosc     = 5431kHz                                                              
+clk_sys  = 125000kHz                                                            
+clk_peri = 125000kHz                                                            
+clk_usb  = 48000kHz                                                             
+clk_adüpll_sys  = 0kHz                                                          
+pll_usb  = 48000kHz                                                             
+rosc     = 5435kHz                                                              
+clk_sys  = 48000kHz                                                             
+clk_peri = 48000kHz                                                             
+clk_usb  = 48000kHz                                                             
+clk_adc  = 48000kHz                                                             
+clk_rtc  = 47kHz                                                                
+Hello, 48MHz
+
+openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program blink/blink.elf verify reset exit"
+
+dma/hello_dma/hello_dma.elf
+
+openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program dma/hello_dma/hello_dma.elf verify reset exit"
+
+Hello, world! (from DMA)
+
+
+
+
+
