@@ -8,7 +8,9 @@
 #include "pico/stdlib.h"
 
 #define DBUG 0
-#define DBUG1 1
+#define DBUG1 0
+#define DBUG2 1
+
 struct PTRs {
 	/*This is the buffer for inp & output
 	2048 x 2048 = 4194304
@@ -494,8 +496,46 @@ const short int a[] = {161,157,156,157,159,162,162,166,172,165,148,117,93,94,94,
 136,140,183,190,194,204,204,208,207,209,211,213,210,207,209,172,
 55,85,89,94,102,102,96,88,94,82,64,62,67,63,59,91};
 
+const unsigned char CRC7_POLY = 0x91;
+unsigned char CRCTable[256];
+ 
+unsigned char getCRCForByte(unsigned char val)
+{
+  unsigned char j;
+ 
+  for (j = 0; j < 8; j++)
+  {
+    if (val & 1)
+      val ^= CRC7_POLY;
+    val >>= 1;
+  }
+ 
+  return val;
+}
+ 
+void buildCRCTable()
+{
+  int i;
+ 
+  // fill an array with CRC values of all 256 possible bytes
+  for (i = 0; i < 256; i++)
+  {
+    CRCTable[i] = getCRCForByte(i);
+  }
+}
+ 
+unsigned char getCRC(unsigned char message[], unsigned char length)
+{
+  unsigned char i, crc = 0;
+ 
+  for (i = 0; i < length; i++)
+    crc = CRCTable[crc ^ message[i]];
+  return crc;
+}
+
 
 int main() {
+	unsigned char message[3] = {0xd3, 0x01, 0x00};
 	int flag = 0;
     stdio_init_all();
     int i,j,l,index;
@@ -509,6 +549,8 @@ int main() {
 	ptrs.fwd_inv =  &ptrs.fwd;
     *ptrs.fwd_inv = 1;
     
+    buildCRCTable();
+	message[2] = getCRC(message, 2);
     /*
      * for(int i = 0; i < 4096;i++)
         {
@@ -550,6 +592,15 @@ int main() {
 					printf("\n");
 				//}
 			}
+		}
+		if (DBUG2 == 1) {
+			for (i = 0; i < sizeof(message); i++)
+			{
+				for (j = 0; j < 8; j++)
+				printf("%d", (message[i] >> j) % 2);
+				printf(" ");
+			}
+			printf("\n");	
 		}
 	//printf("read 16 values\n");
 	
