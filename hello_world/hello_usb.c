@@ -9,7 +9,7 @@
 
 #define DBUG 0
 #define DBUG1 1
-#define DBUG2 9
+#define DBUG2 0
 #define imgsize 4096
 //#define imgsize 512
 struct PTRs {
