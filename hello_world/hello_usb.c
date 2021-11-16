@@ -7,14 +7,18 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
 
-#define DBUG 1
-
+#define DBUG 0
+#define DBUG1 1
+#define DBUG2 9
+#define imgsize 4096
+//#define imgsize 512
 struct PTRs {
 	/*This is the buffer for inp & output
 	2048 x 2048 = 4194304
 	256 x 256 = 65536
+	64 x 64 = 4096
 	*/
-	short int inpbuf[4096*2];
+	short int inpbuf[imgsize*2];
 	short int *inp_buf;
 	short int *out_buf;
 	short int flag;
@@ -23,6 +27,10 @@ struct PTRs {
 	short int *fwd_inv;
 	short int fwd;
 	short int *red;
+	short int *head;
+	short int *tail;
+	short int *topofbuf;
+	short int *endofbuf;
 } ptrs;
 
 void	singlelift(short int rb, short int w, short int * const ibuf, short int * const obuf) {
@@ -159,7 +167,7 @@ void	lifting(short int w, short int *ibuf, short int *tmpbuf, short int *fwd) {
 	short int	lvl;
 
 	short int	*ip = ibuf, *tp = tmpbuf, *test_fwd = fwd;
-	printf("ip = 0x%x tp = 0x%x \n",ip,tp);
+	//printf("ip = 0x%x tp = 0x%x \n",ip,tp);
 	short int	ov[3];
 
 	const short int	LVLS = 3;
@@ -213,7 +221,7 @@ void	lifting(short int w, short int *ibuf, short int *tmpbuf, short int *fwd) {
 		// Move to the corner, and repeat
 		w>>=1;
 	}
-	printf("testing test_fwd \n");
+	//printf("testing test_fwd \n");
 	if (test_fwd[0]==0) {
 	for(lvl=(LVLS-1); lvl>=0; lvl--) {
 		short int	offset;
@@ -494,26 +502,128 @@ const short int a[] = {161,157,156,157,159,162,162,166,172,165,148,117,93,94,94,
 136,140,183,190,194,204,204,208,207,209,211,213,210,207,209,172,
 55,85,89,94,102,102,96,88,94,82,64,62,67,63,59,91};
 
+const unsigned char CRC7_POLY = 0x91;
+unsigned char CRCTable[256];
+ 
+unsigned char getCRCForByte(unsigned char val)
+{
+  unsigned char j;
+ 
+  for (j = 0; j < 8; j++)
+  {
+    if (val & 1)
+      val ^= CRC7_POLY;
+    val >>= 1;
+  }
+ 
+  return val;
+}
+ 
+void buildCRCTable()
+{
+  int i;
+ 
+  // fill an array with CRC values of all 256 possible bytes
+  for (i = 0; i < 256; i++)
+  {
+    CRCTable[i] = getCRCForByte(i);
+  }
+}
+ 
+unsigned char getCRC(unsigned char message[], unsigned char length)
+{
+  unsigned char i, crc = 0;
+ 
+  for (i = 0; i < length; i++)
+    crc = CRCTable[crc ^ message[i]];
+  return crc;
+}
+
+int* bump_head(short int * head, short int * endofbuf,short int * topofbuf) {
+ 
+	if(head == endofbuf) {
+
+		
+			printf("head == endofbuf\n");
+			head = topofbuf;
+	}
+	else {
+		printf("head < endofbuf\n");
+		head = head + 1;
+	}
+ 
+	
+	return((int *)head);
+}
+int* bump_tail(short int * tail,short int * endofbuf,short int * topofbuf) {
+	
+	if(tail == endofbuf) {
+
+		
+			printf("tail == endofbuf\n");
+			tail = topofbuf;
+	}
+	else {
+		printf("tail < endofbuf\n");
+		tail = tail + 1;
+	}
+ 
+	
+	return((int *)tail);
+}
+int* dec_head(short int * head,short int * endofbuf,short int * topofbuf) {
+	if(head == topofbuf) {
+			printf("head == topofbuf\n");
+			//head = topofbuf;
+	}
+	else {
+		printf("head < topofbuf\n");
+		head = head - 1;
+	}
+
+	return((int *)head);
+}
+int* dec_tail(short int * tail,short int * endofbuf,short int * topofbuf) {
+	if(tail == topofbuf) {
+			printf("tail == topofbuf\n");
+			//head = topofbuf;
+	}
+	else {
+		printf("tail < topofbuf\n");
+		tail = tail - 1;
+	}
+
+	return((int *)tail); 
+}
 
 int main() {
+	unsigned char message[3] = {0xd3, 0x01, 0x00};
 	int flag = 0;
     stdio_init_all();
+    int i,j,l,index;
     ptrs.w = 64;
     ptrs.h = 64;
     
-    ptrs.inp_buf = ptrs.inpbuf; 
-	ptrs.out_buf = ptrs.inpbuf + 4096;
+    
+    ptrs.inp_buf = ptrs.inpbuf;   
+    ptrs.head = ptrs.inpbuf;
+	ptrs.tail = ptrs.inpbuf;
+	ptrs.topofbuf = ptrs.inpbuf;
+	
+	ptrs.out_buf = ptrs.inpbuf + imgsize;
+	ptrs.endofbuf = ptrs.out_buf;
+	sleep_ms(2000);
+	printf("setting pointers\n");
+	printf("ptrs.inp_buf = 0x%x ptrs.out_buf = 0x%x\n",ptrs.inpbuf, ptrs.out_buf);
+	
+	printf("0x%x 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
 	
 	ptrs.fwd_inv =  &ptrs.fwd;
     *ptrs.fwd_inv = 1;
     
-    for(int i = 0; i < 4096;i++)
-        {
-            *ptrs.inp_buf = a[i];
-            //printf("%d \n",*ptrs.inp_buf);
-            ptrs.inp_buf++;
-            
-        }
+    buildCRCTable();
+	message[2] = getCRC(message, 2);
+
     while (true) {
         if (DBUG == 1 ) {
             printf("Hello, world!\n");
@@ -523,22 +633,67 @@ int main() {
             printf("These are the variables needed for lifting\n");
             printf("ptrs.inp_buf = 0x%x ptrs.out_buf = 0x%x\n",ptrs.inp_buf, ptrs.out_buf);
             
-            printf("w = %d ptrs.fwd_inv = 0x%x ptrs.fwd_inv = %d\n",ptrs.w,ptrs.fwd_inv, *ptrs.fwd_inv); 
+            printf("w = %d ptrs.fwd_inv = 0x%x ptrs.fwd_inv = %d\n",ptrs.w,ptrs.fwd_inv, *ptrs.fwd_inv);
+            printf("head = 0x%x tail = 0x%x end = 0x%x top = 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
             //for(int i=0;i<25;i++) printf("%d ",a[i]);
             //printf("\n");
+            printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
+            ptrs.head = (short int *)bump_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.tail = (short int *)bump_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.head = (short int *)bump_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.tail = (short int *)bump_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.head = (short int *)bump_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.tail = (short int *)bump_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+			printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
+            ptrs.head = (short int *)dec_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.tail = (short int *)dec_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.head = (short int *)dec_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.tail = (short int *)dec_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.head = (short int *)dec_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.tail = (short int *)dec_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+            
+            printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
+
         } 
-        if (flag < 50) {
-			printf("Calling lifting!\n");
+        if (DBUG1 == 1) {
+			for(i = 0; i < imgsize;i++) ptrs.inp_buf[i] = a[i];
+			 
 			lifting(ptrs.w,ptrs.inp_buf,ptrs.out_buf,ptrs.fwd_inv);
-			printf("Back in main!\n");
-			for(int i=0;i<16;i++) {
-				printf("%d ",*ptrs.out_buf);
-				ptrs.out_buf++;
+			 
+			//for(i=0;i<imgsize;i++) printf("%d ",ptrs.inp_buf[i]);
+			index = 0;
+			for(j=0;j<64;j++) {
+				//for(l=0;l<4;l++) {
+				//printf("%d\n",l);
+					for(i=0;i<64;i++) {
+						printf("%d,",ptrs.inp_buf[index]);
+						//printf("%d %d %d\n",i,index,index++);
+						index++;
+					}
+					//index = index + 64;
+					printf("\n");
+				//}
 			}
-			ptrs.out_buf = ptrs.inpbuf + 4096;
 		}
-		flag++;
-        sleep_ms(1000);
+		if (DBUG2 == 1) {
+			for (i = 0; i < sizeof(message); i++)
+			{
+				for (j = 0; j < 8; j++)
+				printf("%d", (message[i] >> j) % 2);
+				printf(" ");
+			}
+			printf("\n");
+			printf("0x%x 0x%x 0x%x 0x%x\n",*ptrs.head,*ptrs.tail,*ptrs.endofbuf,*ptrs.topofbuf);	
+		}
+	//printf("read 16 values\n");
+	
+
+			//printf("\n");
+
+	
+		
+        sleep_ms(8000);
+        //sleep_ms(50);
     }
     return 0;
 }
