@@ -246,7 +246,7 @@ void	lifting(short int w, short int *ibuf, short int *tmpbuf, short int *fwd) {
 	}
 }
 
-char tt[10];
+unsigned char tt[10];
 
 const char src[] = "Hello, world! ";
 const short int a[] = {161,157,156,157,159,162,162,166,172,165,148,117,93,94,94,94,
@@ -600,12 +600,25 @@ char * dec_tail(char * tail,char * endofbuf,char * topofbuf) {
 	return((char *)tail); 
 }
 int read_tt(char * head, char * endofbuf,char * topofbuf) {
-	*ptrs.head = getchar();
-	printf("%c\n",*ptrs.head);
-	ptrs.head = (char *)bump_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+	int i, numtoread = 10;
+	unsigned char CRC;
+	printf("0x%x 0x%x 0x%x \n",ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+	for(i=0;i<numtoread;i++) {
+		
+		*ptrs.head = getchar();
+	 	ptrs.head = (char *)bump_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+	}
+	CRC = getCRC(tt,10);
+	for(i=0;i<numtoread;i++) bump_tail(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+	for(i=0;i<numtoread;i++) printf("%c ",tt[i]);
+	
+	printf("\n");
+	printf("0x%x 0x%x 0x%x \n",ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+	printf("CRC = 0x%x\n",CRC);
+	
 	return(1);
 }
-char userInput;
+unsigned char userInput;
 
 int main() {
 	unsigned char message[3] = {0xd3, 0x01, 0x00};
@@ -709,9 +722,9 @@ int main() {
 
 	
 		if (DBUG3 == 1) {
-			printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
+			//printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
 			read_tt(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);	
-			printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
+			//printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
 		}
         //sleep_ms(8000);
         sleep_ms(50);
