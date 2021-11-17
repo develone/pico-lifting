@@ -8,8 +8,10 @@
 #include "pico/stdlib.h"
 
 #define DBUG 0
-#define DBUG1 1
+#define DBUG1 0
 #define DBUG2 0
+#define DBUG3 1
+
 #define imgsize 4096
 //#define imgsize 512
 struct PTRs {
@@ -27,10 +29,10 @@ struct PTRs {
 	short int *fwd_inv;
 	short int fwd;
 	short int *red;
-	short int *head;
-	short int *tail;
-	short int *topofbuf;
-	short int *endofbuf;
+	char *head;
+	char *tail;
+	char *topofbuf;
+	char *endofbuf;
 } ptrs;
 
 void	singlelift(short int rb, short int w, short int * const ibuf, short int * const obuf) {
@@ -243,6 +245,8 @@ void	lifting(short int w, short int *ibuf, short int *tmpbuf, short int *fwd) {
 	}
 	}
 }
+
+char tt[10];
 
 const char src[] = "Hello, world! ";
 const short int a[] = {161,157,156,157,159,162,162,166,172,165,148,117,93,94,94,94,
@@ -539,7 +543,7 @@ unsigned char getCRC(unsigned char message[], unsigned char length)
   return crc;
 }
 
-int* bump_head(short int * head, short int * endofbuf,short int * topofbuf) {
+char * bump_head(char * head, char * endofbuf,char * topofbuf) {
  
 	if(head == endofbuf) {
 
@@ -553,9 +557,9 @@ int* bump_head(short int * head, short int * endofbuf,short int * topofbuf) {
 	}
  
 	
-	return((int *)head);
+	return((char *)head);
 }
-int* bump_tail(short int * tail,short int * endofbuf,short int * topofbuf) {
+char * bump_tail(char * tail,char * endofbuf,char * topofbuf) {
 	
 	if(tail == endofbuf) {
 
@@ -569,9 +573,9 @@ int* bump_tail(short int * tail,short int * endofbuf,short int * topofbuf) {
 	}
  
 	
-	return((int *)tail);
+	return((char *)tail);
 }
-int* dec_head(short int * head,short int * endofbuf,short int * topofbuf) {
+char * dec_head(char * head,char * endofbuf,char * topofbuf) {
 	if(head == topofbuf) {
 			printf("head == topofbuf\n");
 			//head = topofbuf;
@@ -581,9 +585,9 @@ int* dec_head(short int * head,short int * endofbuf,short int * topofbuf) {
 		head = head - 1;
 	}
 
-	return((int *)head);
+	return((char *)head);
 }
-int* dec_tail(short int * tail,short int * endofbuf,short int * topofbuf) {
+char * dec_tail(char * tail,char * endofbuf,char * topofbuf) {
 	if(tail == topofbuf) {
 			printf("tail == topofbuf\n");
 			//head = topofbuf;
@@ -593,9 +597,14 @@ int* dec_tail(short int * tail,short int * endofbuf,short int * topofbuf) {
 		tail = tail - 1;
 	}
 
-	return((int *)tail); 
+	return((char *)tail); 
 }
-
+int read_tt(char * head, char * endofbuf,char * topofbuf) {
+	*ptrs.head = getchar();
+	printf("%c\n",*ptrs.head);
+	ptrs.head = (char *)bump_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+	return(1);
+}
 char userInput;
 
 int main() {
@@ -608,12 +617,12 @@ int main() {
     
     
     ptrs.inp_buf = ptrs.inpbuf;   
-    ptrs.head = ptrs.inpbuf;
-	ptrs.tail = ptrs.inpbuf;
-	ptrs.topofbuf = ptrs.inpbuf;
+    ptrs.head = &tt[0];
+	ptrs.tail = &tt[0];
+	ptrs.topofbuf = &tt[0];
 	
 	ptrs.out_buf = ptrs.inpbuf + imgsize;
-	ptrs.endofbuf = ptrs.out_buf;
+	ptrs.endofbuf = &tt[9];
 	sleep_ms(2000);
 	printf("setting pointers\n");
 	printf("ptrs.inp_buf = 0x%x ptrs.out_buf = 0x%x\n",ptrs.inpbuf, ptrs.out_buf);
@@ -640,19 +649,19 @@ int main() {
             //for(int i=0;i<25;i++) printf("%d ",a[i]);
             //printf("\n");
             printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
-            ptrs.head = (short int *)bump_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
-            ptrs.tail = (short int *)bump_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
-            ptrs.head = (short int *)bump_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
-            ptrs.tail = (short int *)bump_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
-            ptrs.head = (short int *)bump_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
-            ptrs.tail = (short int *)bump_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.head = (char *)bump_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.tail = (char *)bump_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.head = (char *)bump_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.tail = (char *)bump_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.head = (char *)bump_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.tail = (char *)bump_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
 			printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
-            ptrs.head = (short int *)dec_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
-            ptrs.tail = (short int *)dec_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
-            ptrs.head = (short int *)dec_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
-            ptrs.tail = (short int *)dec_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
-            ptrs.head = (short int *)dec_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
-            ptrs.tail = (short int *)dec_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.head = (char *)dec_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.tail = (char *)dec_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.head = (char *)dec_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.tail = (char *)dec_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.head = (char *)dec_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+            ptrs.tail = (char *)dec_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
             
             printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
 
@@ -699,9 +708,13 @@ int main() {
 			//printf("\n");
 
 	
-		
-        sleep_ms(8000);
-        //sleep_ms(50);
+		if (DBUG3 == 1) {
+			printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
+			read_tt(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);	
+			printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
+		}
+        //sleep_ms(8000);
+        sleep_ms(50);
     }
     return 0;
 }
