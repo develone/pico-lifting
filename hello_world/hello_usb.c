@@ -596,6 +596,8 @@ int* dec_tail(short int * tail,short int * endofbuf,short int * topofbuf) {
 	return((int *)tail); 
 }
 
+char userInput;
+
 int main() {
 	unsigned char message[3] = {0xd3, 0x01, 0x00};
 	int flag = 0;
@@ -656,15 +658,19 @@ int main() {
 
         } 
         if (DBUG1 == 1) {
+			printf("Command (1 = Send or 0 = Wait):\n");
+			userInput = getchar();
+			
 			for(i = 0; i < imgsize;i++) ptrs.inp_buf[i] = a[i];
 			 
 			lifting(ptrs.w,ptrs.inp_buf,ptrs.out_buf,ptrs.fwd_inv);
-			 
-			//for(i=0;i<imgsize;i++) printf("%d ",ptrs.inp_buf[i]);
-			index = 0;
-			for(j=0;j<64;j++) {
-				//for(l=0;l<4;l++) {
-				//printf("%d\n",l);
+			
+			if(userInput == '1'){
+				//for(i=0;i<imgsize;i++) printf("%d ",ptrs.inp_buf[i]);
+				index = 0;
+				for(j=0;j<64;j++) {
+					//for(l=0;l<4;l++) {
+					//printf("%d\n",l);
 					for(i=0;i<64;i++) {
 						printf("%d,",ptrs.inp_buf[index]);
 						//printf("%d %d %d\n",i,index,index++);
@@ -672,8 +678,10 @@ int main() {
 					}
 					//index = index + 64;
 					printf("\n");
-				//}
+					//}
+				}
 			}
+			
 		}
 		if (DBUG2 == 1) {
 			for (i = 0; i < sizeof(message); i++)
