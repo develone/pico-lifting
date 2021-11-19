@@ -246,8 +246,8 @@ void	lifting(short int w, short int *ibuf, short int *tmpbuf, short int *fwd) {
 	}
 }
 
-unsigned char tt[10];
 
+unsigned char tt[128];
 const char src[] = "Hello, world! ";
 const short int a[] = {161,157,156,157,159,162,162,166,172,165,148,117,93,94,94,94,
 100,104,103,102,100,102,103,107,109,110,110,108,107,106,105,105,
@@ -548,11 +548,11 @@ char * bump_head(char * head, char * endofbuf,char * topofbuf) {
 	if(head == endofbuf) {
 
 		
-			printf("head == endofbuf\n");
+			//printf("head == endofbuf\n");
 			head = topofbuf;
 	}
 	else {
-		printf("head < endofbuf\n");
+		//printf("head < endofbuf\n");
 		head = head + 1;
 	}
  
@@ -564,11 +564,11 @@ char * bump_tail(char * tail,char * endofbuf,char * topofbuf) {
 	if(tail == endofbuf) {
 
 		
-			printf("tail == endofbuf\n");
+			//printf("tail == endofbuf\n");
 			tail = topofbuf;
 	}
 	else {
-		printf("tail < endofbuf\n");
+		//printf("tail < endofbuf\n");
 		tail = tail + 1;
 	}
  
@@ -577,11 +577,11 @@ char * bump_tail(char * tail,char * endofbuf,char * topofbuf) {
 }
 char * dec_head(char * head,char * endofbuf,char * topofbuf) {
 	if(head == topofbuf) {
-			printf("head == topofbuf\n");
+			//printf("head == topofbuf\n");
 			//head = topofbuf;
 	}
 	else {
-		printf("head < topofbuf\n");
+		//printf("head < topofbuf\n");
 		head = head - 1;
 	}
 
@@ -600,21 +600,28 @@ char * dec_tail(char * tail,char * endofbuf,char * topofbuf) {
 	return((char *)tail); 
 }
 int read_tt(char * head, char * endofbuf,char * topofbuf) {
-	int i, numtoread = 10;
+
+	int i,numtoread = 64;
 	unsigned char CRC;
-	printf("0x%x 0x%x 0x%x \n",ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+	 
+	//printf("0x%x 0x%x 0x%x \n",ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
 	for(i=0;i<numtoread;i++) {
 		
 		*ptrs.head = getchar();
 	 	ptrs.head = (char *)bump_head(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
 	}
-	CRC = getCRC(tt,10);
-	for(i=0;i<numtoread;i++) bump_tail(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
-	for(i=0;i<numtoread;i++) printf("%c ",tt[i]);
 	
-	printf("\n");
-	printf("0x%x 0x%x 0x%x \n",ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
-	printf("CRC = 0x%x\n",CRC);
+	CRC = getCRC(tt,numtoread);
+	printf("0x%x\n",CRC);
+	//for(i=0;i<numtoread;i++) bump_tail(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+	//for(i=0;i<numtoread;i++) printf("%c",tt[i]);
+	
+	
+	//printf("\n");
+
+	 
+	//printf("0x%x 0x%x 0x%x \n",ptrs.head,ptrs.endofbuf,ptrs.topofbuf);
+	//printf("CRC = 0x%x\n",CRC);
 	
 	return(1);
 }
@@ -635,12 +642,12 @@ int main() {
 	ptrs.topofbuf = &tt[0];
 	
 	ptrs.out_buf = ptrs.inpbuf + imgsize;
-	ptrs.endofbuf = &tt[9];
+	ptrs.endofbuf = &tt[128];
 	sleep_ms(2000);
 	printf("setting pointers\n");
 	printf("ptrs.inp_buf = 0x%x ptrs.out_buf = 0x%x\n",ptrs.inpbuf, ptrs.out_buf);
 	
-	printf("0x%x 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+	printf("head 0x%x tsil 0x%x end 0x%x top 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
 	
 	ptrs.fwd_inv =  &ptrs.fwd;
     *ptrs.fwd_inv = 1;
@@ -724,7 +731,11 @@ int main() {
 		if (DBUG3 == 1) {
 			//printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
 			read_tt(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);	
-			//printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
+			//printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+			for(i=0;i<32;i++) printf("%d ",tt[i]);
+			printf("\n");
+			for(i=32;i<64;i++) printf("%d ",tt[i]);
+			printf("\n");
 		}
         //sleep_ms(8000);
         sleep_ms(50);
