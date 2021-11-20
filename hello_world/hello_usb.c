@@ -628,8 +628,9 @@ int read_tt(char * head, char * endofbuf,char * topofbuf) {
 unsigned char userInput;
 
 int main() {
+	unsigned char recCRC;
 	unsigned char message[3] = {0xd3, 0x01, 0x00};
-	int flag = 0;
+	int flag = 0,numofchars;
     stdio_init_all();
     int i,j,l,index;
     ptrs.w = 64;
@@ -736,6 +737,19 @@ int main() {
 			printf("\n");
 			for(i=32;i<64;i++) printf("%d ",tt[i]);
 			printf("\n");
+			numofchars = ptrs.head -ptrs.tail;
+			printf("%d ", numofchars);
+			printf("0x%x 0x%x 0x%x 0x%x 0x%x \n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf,ptrs.inp_buf);
+			for(i=0;i<numofchars;i++) {
+				*ptrs.inp_buf = (unsigned short int)*ptrs.tail;
+				ptrs.inp_buf++;
+				ptrs.tail = (char *)bump_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+			}
+			recCRC = getchar();
+			printf("recCRC 0x%x ",recCRC);
+			
+			printf("0x%x 0x%x 0x%x 0x%x 0x%x \n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf,ptrs.inp_buf);
+			
 		}
         //sleep_ms(8000);
         sleep_ms(50);

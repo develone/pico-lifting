@@ -299,7 +299,7 @@ unsigned char getCRC(unsigned char message[], unsigned char length)
 
 int main()
 {
-  unsigned char message[64];
+  unsigned char message[65];
   char *ptr;
   short int inpbuf[imgsize];
   unsigned char CRC;
@@ -318,22 +318,24 @@ int main()
   
   buildCRCTable();
   
-  //for(j=0;j<4;j++) {
+  for(j=0;j<64;j++) {
     for(i=0;i<64;i++) {
       message[i] = barray[index];
       //printf("%x ",message[i]);
       index++;
     }
     CRC = getCRC(message, 64);
+    message[64] = CRC;
     for(k=0;k<64;k++) printf("%x",message[k]);
     printf("\n0x%x\n",CRC);
     fwrite(message,sizeof(message),1,outptr);
+    //fwrite((unsigned char)CRC,sizeof(CRC),1,outptr);
     /*
     for(k=0;k<128;k++) printf("%x",message[k]);
     printf("\n");
     CRC = getCRC(message, 128);
     printf("j = %d i = %d CRC = 0x%x\n",j,i,CRC);
     */
-  //}
+  }
   fclose(outptr);
 }
