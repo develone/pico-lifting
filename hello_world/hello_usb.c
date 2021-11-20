@@ -737,10 +737,11 @@ int main() {
 			printf("\n");
 			for(i=32;i<64;i++) printf("%d ",tt[i]);
 			printf("\n");
-			numofchars = ptrs.head -ptrs.tail;
-			printf("%d ", numofchars);
-			printf("0x%x 0x%x 0x%x 0x%x 0x%x \n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf,ptrs.inp_buf);
-			for(i=0;i<numofchars;i++) {
+			
+			//numofchars = ptrs.head -ptrs.tail;
+			//printf("%d ", numofchars);
+			//printf("0x%x 0x%x 0x%x 0x%x 0x%x \n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf,ptrs.inp_buf);
+			for(i=0;i<64;i++) {
 				*ptrs.inp_buf = (unsigned short int)*ptrs.tail;
 				ptrs.inp_buf++;
 				ptrs.tail = (char *)bump_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
