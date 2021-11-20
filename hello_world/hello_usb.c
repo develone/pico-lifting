@@ -631,7 +631,7 @@ unsigned char userInput;
 int main() {
 	unsigned char recCRC;
 	unsigned char message[3] = {0xd3, 0x01, 0x00};
-	int flag = 0,numofchars;
+	int flag = 0,numofchars,error=0;
     stdio_init_all();
     int i,j,l,index;
     ptrs.w = 64;
@@ -780,7 +780,17 @@ int main() {
 				printf("0x%x 0x%x 0x%x 0x%x 0x%x \n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf,ptrs.inp_buf);
 			}
 			ptrs.inp_buf = ptrs.inpbuf;
-			
+			for(i = 0; i < imgsize;i++) {
+				if (ptrs.inp_buf[i] == a[i]) {
+					//printf("matched %d \n",i);
+					error = 0;
+				} else {
+					//printf("error %d\n",i);
+					error = 1;
+				}
+				
+			}
+			printf("errors %d \n",error); 
 			printf("Command (1 = Send or 0 = Wait):\n");
 			userInput = getchar();
 			 
