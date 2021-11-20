@@ -10,7 +10,8 @@
 #define DBUG 0
 #define DBUG1 0
 #define DBUG2 0
-#define DBUG3 1
+#define DBUG3 0
+#define DBUG4 1
 
 #define imgsize 4096
 //#define imgsize 512
@@ -751,6 +752,56 @@ int main() {
 			
 			printf("0x%x 0x%x 0x%x 0x%x 0x%x \n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf,ptrs.inp_buf);
 			
+		}
+		
+		if (DBUG4 == 1) {
+			/* Reads 4096 values*/
+			
+			while (ptrs.inp_buf < ptrs.out_buf) {
+				//printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf); 
+				read_tt(ptrs.head,ptrs.endofbuf,ptrs.topofbuf);	
+				//printf("head = 0x%x tail = 0x%x 0x%x 0x%x\n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+				for(i=0;i<32;i++) printf("%d ",tt[i]);
+				printf("\n");
+				for(i=32;i<64;i++) printf("%d ",tt[i]);
+				printf("\n");
+			
+				//numofchars = ptrs.head -ptrs.tail;
+				//printf("%d ", numofchars);
+				//printf("0x%x 0x%x 0x%x 0x%x 0x%x \n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf,ptrs.inp_buf);
+				for(i=0;i<64;i++) {
+					*ptrs.inp_buf = (unsigned short int)*ptrs.tail;
+					ptrs.inp_buf++;
+					ptrs.tail = (char *)bump_tail(ptrs.tail,ptrs.endofbuf,ptrs.topofbuf);
+				}
+				recCRC = getchar();
+				printf("recCRC 0x%x ",recCRC);
+			
+				printf("0x%x 0x%x 0x%x 0x%x 0x%x \n",ptrs.head,ptrs.tail,ptrs.endofbuf,ptrs.topofbuf,ptrs.inp_buf);
+			}
+			ptrs.inp_buf = ptrs.inpbuf;
+			
+			printf("Command (1 = Send or 0 = Wait):\n");
+			userInput = getchar();
+			 
+			lifting(ptrs.w,ptrs.inp_buf,ptrs.out_buf,ptrs.fwd_inv);
+			
+			if(userInput == '1'){
+				//for(i=0;i<imgsize;i++) printf("%d ",ptrs.inp_buf[i]);
+				index = 0;
+				for(j=0;j<64;j++) {
+					//for(l=0;l<4;l++) {
+					//printf("%d\n",l);
+					for(i=0;i<64;i++) {
+						printf("%d,",ptrs.inp_buf[index]);
+						//printf("%d %d %d\n",i,index,index++);
+						index++;
+					}
+					//index = index + 64;
+					printf("\n");
+					//}
+				}
+			} 
 		}
         //sleep_ms(8000);
         sleep_ms(50);
