@@ -22,6 +22,9 @@ int main() {
 
     while (true) {
         uart_tx_program_puts(pio, sm, "Hello, world! (from PIO!)\n");
+				uart_tx_program_puts(pio, sm, "01234567890\n");
+				uart_tx_program_puts(pio, sm, "abcdefghijklmnopqrstuvwxyz");
+				uart_tx_program_puts(pio, sm, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         sleep_ms(1000);
     }
 }
