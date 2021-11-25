@@ -173,7 +173,7 @@ void	lifting(short int w, short int *ibuf, short int *tmpbuf, short int *fwd) {
 	//printf("ip = 0x%x tp = 0x%x \n",ip,tp);
 	short int	ov[3];
 
-	const short int	LVLS = 3;
+	const short int	LVLS = 4;
 
 /*
 	for(lvl=0; lvl<w*w; lvl++)
