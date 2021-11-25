@@ -656,7 +656,7 @@ int main() {
     
     buildCRCTable();
 	message[2] = getCRC(message, 2);
-
+	const uint SERIAL_BAUD = 1000000;
     while (true) {
         if (DBUG == 1 ) {
             printf("Hello, world!\n");

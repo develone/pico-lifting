@@ -16,6 +16,8 @@ openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program blink/
 devel@mypi3-20:/opt/pico-examples/build $ 
 
 openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program pio/uart_tx/pio_uart_tx.elf verify reset exit"
+
+openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program pio/uart_rx/pio_uart_rx.elf verify reset exit"
 1 termiminal
 This compiles the /opt/pico-examples/build/hello_world/usb/hello_usb.c 
 This creates the hello_usb.elf, hello_usb.dis which is the disasmbly and hello_usb.map.
