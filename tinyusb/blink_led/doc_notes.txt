@@ -1,0 +1,11 @@
+This video covers how to use USB serial input on the Raspberry Pi Pico in your projects. 
+We use a Visual Studio Code project to program the brand-new Raspberry Pi Pico microcontroller board in C. 
+We create a basic blink LED program which accepts the inputs from the serial monitor over USB and changes 
+the state of the LED. We also explain how to configure the CMake configuration file to 
+enable the USB serial input on the Pico.
+
+This video provides the fundamental background of the serial USB process and explains how to correctly configure your Pico microcontroller. It explains which functions in the Pico SDK to use in order to communicate to and from the Pico. 
+
+
+youtube https://www.youtube.com/watch?v=NHwMJZwRo7k
+https://learnembeddedsystems.co.uk/usb-serial-input-on-the-pico
