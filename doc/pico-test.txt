@@ -5,13 +5,17 @@ This shell allows programming the Raspberry Pi Pico
 
 export PATH=~/local/openocd/bin:$PATH
 
-devel@mypi3-20:/opt/pico-examples/build $ 
+devel@mypi3-20:/opt/pico-examples/build $
+
+openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program hello_world/serial/hello_serial.elf verify reset exit"
 
 openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program hello_world/usb/hello_usb.elf verify reset exit"
 
 devel@mypi3-20:/opt/pico-examples/build $ 
 
 openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program blink/blink.elf verify reset exit"
+
+openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program blink_led/blink_led.elf verify reset exit"
 
 devel@mypi3-20:/opt/pico-examples/build $ 
 

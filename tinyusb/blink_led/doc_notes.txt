@@ -9,3 +9,41 @@ This video provides the fundamental background of the serial USB process and exp
 
 youtube https://www.youtube.com/watch?v=NHwMJZwRo7k
 https://learnembeddedsystems.co.uk/usb-serial-input-on-the-pico
+
+Adding blink_led project to my pico-examples
+
+git diff CMakeLists.txt
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 66add69..7641f33 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -15,6 +15,7 @@ pico_sdk_init()
+ include(example_auto_set_url.cmake)
+ # Add blink example
+ add_subdirectory(blink)
++add_subdirectory(blink_led)
+ 
+ # Add hello world example
+ add_subdirectory(hello_world)
+
+Need make chgs to CmakeLists.txt
+Also the CmakeLists.txt needs to be CMakeLists.txt
+
+diff CmakeLists.txt /opt/pico-examples/blink_led/CMakeLists.txt 
+1,7c1
+< cmake_minimum_required(VERSION 3.12)
+< 
+< include(pico_sdk_import.cmake)
+< 
+< project(pico-projects)
+< 
+< pico_sdk_init()
+---
+>  
+devel@pi4-23:/opt/pico-examples $ cd build
+cmake ..
+cd blink_led
+make
+devel@pi4-23:/opt/pico-examples/build/blink_led $ ls
+blink_led.bin  blink_led.elf      blink_led.hex  CMakeFiles           Makefile
+blink_led.dis  blink_led.elf.map  blink_led.uf2  cmake_install.cmake  pico-sdk
