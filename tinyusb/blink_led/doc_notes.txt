@@ -137,7 +137,24 @@ Scanning dependencies of target blink_led
 [100%] Linking CXX executable blink_led.elf
 [100%] Built target blink_led
 
-
+ 
 devel@pi4-23:/opt/pico-examples/build/blink_led $ ls
 blink_led.bin  blink_led.elf      blink_led.hex  CMakeFiles           Makefile
 blink_led.dis  blink_led.elf.map  blink_led.uf2  cmake_install.cmake  pico-sdk
+
+program the pico with blink_led.uf2
+
+sudo minicom -s
+Welcome to minicom 2.7.1
+
+OPTIONS: I18n 
+Compiled on Aug 13 2017, 15:25:34.
+Port /dev/ttyACM0, 13:06:57
+
+Press CTRL-A Z for help on special keys
+
+LED switched on!                        
+Command (1 = on or 0 = off):            
+LED switched off!                       
+Command (1 = on or 0 = off): 
+
