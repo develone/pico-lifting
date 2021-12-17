@@ -42,8 +42,102 @@ diff CmakeLists.txt /opt/pico-examples/blink_led/CMakeLists.txt
 >  
 devel@pi4-23:/opt/pico-examples $ cd build
 cmake ..
+PICO_SDK_PATH is /opt/pico-sdk
+PICO platform is rp2040.
+Using regular optimized debug build (set PICO_DEOPTIMIZED_DEBUG=1 to de-optimize)
+PICO target board is pico.
+Using board configuration from /opt/pico-sdk/src/boards/include/boards/pico.h
+TinyUSB available at /opt/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040; adding USB support.
+Compiling TinyUSB with CFG_TUSB_DEBUG=1
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /opt/pico-examples/build
+
+
 cd blink_led
+devel@mypi3-20:/opt/pico-examples/build/blink_led $ ls
+CMakeFiles  cmake_install.cmake  Makefile
+
 make
+[  0%] Performing build step for 'ELF2UF2Build'
+[100%] Built target elf2uf2
+[  0%] No install step for 'ELF2UF2Build'
+[  0%] Completed 'ELF2UF2Build'
+[  0%] Built target ELF2UF2Build
+[  0%] Built target bs2_default
+[  0%] Built target bs2_default_padded_checksummed_asm
+Scanning dependencies of target blink_led
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/blink_led.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/hardware_claim/claim.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/hardware_uart/uart.c.obj
+[  0%] Building ASM object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/hardware_divider/divider.S.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/common/pico_time/time.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/common/pico_time/timeout_helper.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/common/pico_sync/sem.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/common/pico_sync/lock_core.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/common/pico_sync/mutex.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/common/pico_sync/critical_section.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/common/pico_util/datetime.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/common/pico_util/pheap.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/common/pico_util/queue.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_runtime/runtime.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/hardware_clocks/clocks.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
+[  0%] Building ASM object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/hardware_irq/irq_handler_chain.S.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/hardware_pll/pll.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/hardware_vreg/vreg.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/hardware_watchdog/watchdog.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/hardware_xosc/xosc.c.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_printf/printf.c.obj
+[  0%] Building ASM object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_bit_ops/bit_ops_aeabi.S.obj
+[  0%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_bootrom/bootrom.c.obj
+[100%] Building ASM object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_divider/divider.S.obj
+[100%] Building ASM object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_double/double_aeabi.S.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_double/double_init_rom.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_double/double_math.c.obj
+[100%] Building ASM object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_double/double_v1_rom_shim.S.obj
+[100%] Building ASM object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_int64_ops/pico_int64_ops_aeabi.S.obj
+[100%] Building ASM object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_float/float_aeabi.S.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_float/float_init_rom.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_float/float_math.c.obj
+[100%] Building ASM object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_float/float_v1_rom_shim.S.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_malloc/pico_malloc.c.obj
+[100%] Building ASM object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_mem_ops/mem_ops_aeabi.S.obj
+[100%] Building ASM object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_standard_link/crt0.S.obj
+[100%] Building CXX object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_standard_link/binary_info.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_stdio/stdio.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/dcd_rp2040.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/portable/raspberrypi/rp2040/rp2040_usb.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/device/usbd_control.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/class/audio/audio_device.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/class/dfu/dfu_device.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/class/dfu/dfu_rt_device.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/class/hid/hid_device.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/class/midi/midi_device.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/class/msc/msc_device.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/class/net/net_device.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/class/usbtmc/usbtmc_device.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/class/vendor/vendor_device.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/tusb.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj
+[100%] Building C object blink_led/CMakeFiles/blink_led.dir/opt/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj
+[100%] Linking CXX executable blink_led.elf
+[100%] Built target blink_led
+
+
 devel@pi4-23:/opt/pico-examples/build/blink_led $ ls
 blink_led.bin  blink_led.elf      blink_led.hex  CMakeFiles           Makefile
 blink_led.dis  blink_led.elf.map  blink_led.uf2  cmake_install.cmake  pico-sdk
