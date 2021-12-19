@@ -1,0 +1,99 @@
+/opt/pico-examples$
+mkdir blink_led_serial
+Add the 2 files below
+
+https://github.com/develone/pico-lifting/blob/master/blink_led_serial/blink_led_serial.c
+https://github.com/develone/pico-lifting/blob/master/blink_led_serial/CMakeLists.txt
+
+Add  to /opt/pico-examples/CMakeLists.txt the lines below
+
++add_subdirectory(blink_led)
++add_subdirectory(blink_led_serial)
+ 
+/opt/pico-examples/build $ 
+cmake ..
+
+cd /opt/pico-examples/build/blink_led_serial  $
+make
+[  0%] Performing build step for 'ELF2UF2Build'
+[100%] Built target elf2uf2
+[  0%] No install step for 'ELF2UF2Build'
+[  0%] Completed 'ELF2UF2Build'
+[  0%] Built target ELF2UF2Build
+[  0%] Built target bs2_default
+[  0%] Built target bs2_default_padded_checksummed_asm
+[100%] Built target blink_led_serial
+
+This follow provides the files to program the pico to be used with Ultibo
+
+
+https://github.com/develone/Ultibo_Projects/tree/master/picoledonoff_serial/blink_led_serial
+
+export PATH=~/local/openocd/bin:$PATH
+
+openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -c "program blink_led_serial/blink_led_serial.elf verify reset exit"
+Open On-Chip Debugger 0.10.0+dev-g71510a7-dirty (2021-08-15-17:08)
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+adapter speed: 1000 kHz
+
+Info : Hardware thread awareness created
+Info : Hardware thread awareness created
+Info : RP2040 Flash Bank Command
+Info : BCM2835 GPIO JTAG/SWD bitbang driver
+Info : clock speed 1001 kHz
+Info : SWD DPIDR 0x0bc12477
+Info : SWD DLPIDR 0x00000001
+Info : SWD DPIDR 0x0bc12477
+Info : SWD DLPIDR 0x10000001
+Info : rp2040.core0: hardware has 4 breakpoints, 2 watchpoints
+Info : rp2040.core1: hardware has 4 breakpoints, 2 watchpoints
+Info : starting gdb server for rp2040.core0 on 3333
+Info : Listening on port 3333 for gdb connections
+target halted due to debug-request, current mode: Thread 
+xPSR: 0xf1000000 pc: 0x000000ee msp: 0x20041f00
+target halted due to debug-request, current mode: Thread 
+xPSR: 0xf1000000 pc: 0x000000ee msp: 0x20041f00
+** Programming Started **
+Info : RP2040 B0 Flash Probe: 2097152 bytes @10000000, in 512 sectors
+
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x00000178 msp: 0x20041f00
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x00000178 msp: 0x20041f00
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x00000178 msp: 0x20041f00
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x00000178 msp: 0x20041f00
+Info : Writing 12288 bytes starting at 0x0
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x00000178 msp: 0x20041f00
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x00000178 msp: 0x20041f00
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x00000178 msp: 0x20041f00
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x00000178 msp: 0x20041f00
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x00000178 msp: 0x20041f00
+** Programming Finished **
+** Verify Started **
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x00000178 msp: 0x20041f00
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x00000178 msp: 0x20041f00
+** Verified OK **
+** Resetting Target **
+shutdown command invoked
+
+Next need a Ultibo Bare Metal 
+
+https://github.com/develone/Ultibo_Projects/blob/master/picoledonoff_serial/RPi3/picoledonoff_serial.lpr
+
+Now we can update the kernel7.img with the following commands
+
+~/Ultibo_Projects/picoledonoff_serial/RPi3 $ tftp xx.xx.xx.xx 
+tftp> binary
+tftp> put kernel7.img
+Sent 3111756 bytes in 9.1 seconds
