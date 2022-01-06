@@ -1,0 +1,76 @@
+https://www.youtube.com/watch?app=desktop&v=0i2gLeBal9Y
+
+Open the first shell
+
+devel@pi4-23:/opt/pico-examples/build $ openocd -f interface/raspberrypi-swd.cfg -f target/rp2040.cfg -s tcl
+**********************************************************************
+Open On-Chip Debugger 0.10.0+dev-g71510a7-dirty (2021-08-15-17:08)
+Licensed under GNU GPL v2
+For bug reports, read
+	http://openocd.org/doc/doxygen/bugs.html
+adapter speed: 1000 kHz
+
+Info : Hardware thread awareness created
+Info : Hardware thread awareness created
+Info : RP2040 Flash Bank Command
+Info : Listening on port 6666 for tcl connections
+Info : Listening on port 4444 for telnet connections
+Info : BCM2835 GPIO JTAG/SWD bitbang driver
+Info : clock speed 1001 kHz
+Info : SWD DPIDR 0x0bc12477
+Info : SWD DLPIDR 0x00000001
+Info : SWD DPIDR 0x0bc12477
+Info : SWD DLPIDR 0x10000001
+Info : rp2040.core0: hardware has 4 breakpoints, 2 watchpoints
+Info : rp2040.core1: hardware has 4 breakpoints, 2 watchpoints
+Info : starting gdb server for rp2040.core0 on 3333
+Info : Listening on port 3333 for gdb connections
+**********************************************************************
+Info : accepting 'gdb' connection on tcp/3333
+Info : RP2040 B0 Flash Probe: 2097152 bytes @10000000, in 512 sectors
+
+Info : New GDB Connection: 1, Target rp2040.core0, state: halted
+undefined debug reason 8 - target needs reset
+Warn : Prefer GDB command "target extended-remote 3333" instead of "target remote 3333"
+**********************************************************************
+target halted due to debug-request, current mode: Thread 
+xPSR: 0xf1000000 pc: 0x000000ee msp: 0x20041f00
+target halted due to debug-request, current mode: Thread 
+xPSR: 0xf1000000 pc: 0x000000ee msp: 0x20041f00
+
+Open the 2nd shell.
+
+devel@pi4-23:/opt/pico-examples/build/pulsing $ gdb test.elf
+********************************************************************** 
+GNU gdb (Raspbian 10.1-1.7) 10.1.90.20210103-git
+Copyright (C) 2021 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "arm-linux-gnueabihf".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from test.elf...
+(gdb) 
+**********************************************************************
+target remote localhost:3333
+**********************************************************************
+Remote debugging using localhost:3333
+warning: multi-threaded target stopped without sending a thread-id, using first non-exited thread
+0x10000dea in sleep_until ()
+(gdb) 
+**********************************************************************
+monitor reset init
+**********************************************************************
+target halted due to debug-request, current mode: Thread 
+xPSR: 0xf1000000 pc: 0x000000ee msp: 0x20041f00
+target halted due to debug-request, current mode: Thread 
+xPSR: 0xf1000000 pc: 0x000000ee msp: 0x20041f00
+(gdb)
